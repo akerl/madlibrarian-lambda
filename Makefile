@@ -15,7 +15,7 @@ GOLINT = $(BIN)/golint
 GODEP = $(BIN)/dep
 
 build: source deps fmt lint test
-	GOOS=linux GOARCH=amd64 $(GO) build -buildmode=plugin -o handler.so
+	cd $(BASE) && GOOS=linux GOARCH=amd64 $(GO) build -buildmode=plugin -o handler.so
 	pack $(HANDLER) $(HANDLER).so $(PACKAGE).zip
 	@echo "Build completed"
 
