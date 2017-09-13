@@ -34,8 +34,7 @@ fmt:
 		  fi;
 
 test: deps
-	# TODO: Make not a noop
-	#cd $(BASE) && $(GO) test $(GOPACKAGES)
+	cd $(BASE) && $(GO) test $(GOPACKAGES)
 
 deps: $(BASE) $(GODEP)
 	cd $(BASE) && $(GODEP) ensure

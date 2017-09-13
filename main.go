@@ -29,3 +29,5 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write([]byte(q))
 }
+
+func main() {}
