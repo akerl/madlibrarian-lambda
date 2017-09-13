@@ -5,7 +5,9 @@ madlibrarian-lambda
 [![GitHub release](https://img.shields.io/github/release/akerl/madlibrarian-lambda.svg)](https://github.com/akerl/madlibrarian-lambda/releases)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
 
-DESC
+Lambda for [madlibrarian](https://github.com/akerl/madlibrarian)
+
+Packages golang binary with python shim using [eawsy/aws-lambda-go-shim](https://github.com/eawsy/aws-lambda-go-shim)
 
 ## Usage
 
