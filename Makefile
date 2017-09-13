@@ -16,6 +16,7 @@ GODEP = $(BIN)/dep
 
 build: source deps fmt lint test
 	cd $(BASE) && GOOS=linux GOARCH=amd64 $(GO) build -buildmode=plugin -o handler.so
+	cp $(BASE)/handler.so ./handler.so
 	pack handler handler.so $(PACKAGE).zip
 	@echo "Build completed"
 
