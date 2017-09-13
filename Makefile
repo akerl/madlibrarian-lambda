@@ -11,17 +11,12 @@ GOPACKAGES = $(shell echo $(GOFILES) | xargs dirname | sort | uniq)
 
 GO = go
 GOFMT = gofmt
-GOX = $(BIN)/gox
 GOLINT = $(BIN)/golint
 GODEP = $(BIN)/dep
 
-build: source deps $(GOX) fmt lint test
-	$(GOX) \
-		-ldflags '-X $(NAMESPACE)/$(PACKAGE)/cmd.Version=$(VERSION)' \
-		-gocmd="$(GO)" \
-		-output="bin/$(PACKAGE)_{{.OS}}" \
-		-os="darwin linux" \
-		-arch="amd64"
+build: source deps fmt lint test
+	GOOS=linux GOARCH=amd64 $(GO) build -buildmode=plugin -o handler.so
+	pack $(HANDLER) $(HANDLER).so $(PACKAGE).zip
 	@echo "Build completed"
 
 clean:
@@ -39,7 +34,8 @@ fmt:
 		  fi;
 
 test: deps
-	cd $(BASE) && $(GO) test $(GOPACKAGES)
+	# TODO: Make not a noop
+	#cd $(BASE) && $(GO) test $(GOPACKAGES)
 
 deps: $(BASE) $(GODEP)
 	cd $(BASE) && $(GODEP) ensure
@@ -52,9 +48,6 @@ source: $(BASE)
 
 $(GOLINT): $(BASE)
 	$(GO) get github.com/golang/lint/golint
-
-$(GOX): $(BASE)
-	$(GO) get github.com/mitchellh/gox
 
 $(GODEP): $(BASE)
 	$(GO) get github.com/golang/dep/cmd/dep
