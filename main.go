@@ -86,7 +86,7 @@ func configDownload(bucket, storyName string) ([]byte, error) {
 		Key:    aws.String(fmt.Sprintf("meta/%s.yml", storyName)),
 	})
 	if err != nil {
-		return "", err
+		return []byte{}, err
 	}
 	return ioutil.ReadAll(obj.Body)
 }
