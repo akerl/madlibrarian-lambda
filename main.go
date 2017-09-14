@@ -3,13 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/akerl/madlibrarian/utils"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/eawsy/aws-lambda-go-net/service/lambda/runtime/net"
 	"github.com/eawsy/aws-lambda-go-net/service/lambda/runtime/net/apigatewayproxy"
 )
@@ -53,7 +53,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		fail(w, "Config not found")
 	}
 
-	s, err := utils.NewStoryFromText(config)
+	s, err := utils.NewStoryFromText([]byte(config))
 	if err != nil {
 		fail(w, "Failed to parse config")
 	}
@@ -67,7 +67,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 func fail(w http.ResponseWriter, s string) {
 	w.WriteHeader(http.StatusInternalServerError)
 	write(w, s)
-	panic()
+	panic(s)
 }
 
 func write(w http.ResponseWriter, s string) {
@@ -76,11 +76,11 @@ func write(w http.ResponseWriter, s string) {
 
 func configDownload(bucket, storyName string) (string, error) {
 	awsConfig := aws.NewConfig().WithCredentialsChainVerboseErrors(true)
-	sess = session.Must(session.NewSessionWithOptions(session.Options{
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		Config:            *awsConfig,
 		SharedConfigState: session.SharedConfigEnable,
 	}))
-	client = s3.New(sess)
+	client := s3.New(sess)
 	obj, err := client.GetObject(&s3.GetObjectInput{
 		Bucket: aws.String(bucket),
 		Key:    aws.String(fmt.Sprintf("meta/%s.yml", storyName)),
@@ -88,7 +88,7 @@ func configDownload(bucket, storyName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return ioutil.ReadAll(maxObj.Body)
+	return ioutil.ReadAll(obj.Body)
 }
 
 func main() {}
