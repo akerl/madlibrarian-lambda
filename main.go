@@ -65,7 +65,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 }
 
 func fail(w http.ResponseWriter, s string) {
-	w.WriteHeader(http.StatusInternalServerError)
+	//w.WriteHeader(http.StatusInternalServerError)
 	write(w, s)
 	panic(s)
 }
