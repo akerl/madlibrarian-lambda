@@ -27,7 +27,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("%v", err)))
 	}
-	w.write([]byte(fmt.Sprintf("%+v\n\n\n", r)))
+	w.Write([]byte(fmt.Sprintf("%+v\n\n\n", r)))
 	w.Write([]byte(q))
 }
 
