@@ -36,38 +36,43 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	header := r.Header.Get("X-Apigatewayproxy-Event")
 	if header == "" {
 		fail(w, "Not called from APIGW")
+		return
 	}
 	event := apigwEvent{}
 	err := json.Unmarshal([]byte(header), &event)
 	if err != nil {
 		fail(w, "Header JSON deserialization failed")
+		return
 	}
 	storyName := event.PathParameters.Story
 	bucket := event.StageVariables.Bucket
 	if storyName == "" || bucket == "" {
 		fail(w, "Variables not provided")
+		return
 	}
 
 	config, err := configDownload(bucket, storyName)
 	if err != nil {
 		fail(w, "Config not found")
+		return
 	}
 
 	s, err := utils.NewStoryFromText(config)
 	if err != nil {
 		fail(w, "Failed to parse config")
+		return
 	}
 	q, err := s.Generate()
 	if err != nil {
 		fail(w, "Failed to generate quote")
+		return
 	}
 	write(w, q)
 }
 
 func fail(w http.ResponseWriter, s string) {
-	//w.WriteHeader(http.StatusInternalServerError)
+	w.WriteHeader(http.StatusInternalServerError)
 	write(w, s)
-	//panic(s)
 }
 
 func write(w http.ResponseWriter, s string) {
