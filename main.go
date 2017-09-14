@@ -53,7 +53,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		fail(w, "Config not found")
 	}
 
-	s, err := utils.NewStoryFromText([]byte(config))
+	s, err := utils.NewStoryFromText(config)
 	if err != nil {
 		fail(w, "Failed to parse config")
 	}
@@ -74,7 +74,7 @@ func write(w http.ResponseWriter, s string) {
 	w.Write([]byte(s))
 }
 
-func configDownload(bucket, storyName string) (string, error) {
+func configDownload(bucket, storyName string) ([]byte, error) {
 	awsConfig := aws.NewConfig().WithCredentialsChainVerboseErrors(true)
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		Config:            *awsConfig,
