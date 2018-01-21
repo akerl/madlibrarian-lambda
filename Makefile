@@ -7,24 +7,27 @@ export GOPATH = $(CURDIR)/.gopath
 BIN = $(GOPATH)/bin
 BASE = $(GOPATH)/src/$(NAMESPACE)/$(PACKAGE)
 GOFILES = $(shell find . -type f -name '*.go' ! -path './.*' ! -path './vendor/*')
-GOPACKAGES = $(shell echo $(GOFILES) | xargs dirname | sort | uniq)
 
 GO = go
 GOFMT = gofmt
+GOX = $(BIN)/gox
 GOLINT = $(BIN)/golint
 GODEP = $(BIN)/dep
 
-build: source deps fmt lint test
-	cd $(BASE) && GOOS=linux GOARCH=amd64 $(GO) build -ldflags='-w -s' -buildmode=plugin -o handler.so
-	cp $(BASE)/handler.so ./handler.so
-	pack handler handler.so payload.zip
+build: source deps $(GOX) fmt lint test
+	$(GOX) \
+		-ldflags '-X $(NAMESPACE)/$(PACKAGE)/utils.Version=$(VERSION)' \
+		-gocmd="$(GO)" \
+		-output="bin/$(PACKAGE)" \
+		-os="linux" \
+		-arch="amd64"
 	@echo "Build completed"
 
 clean:
 	rm -rf $(GOPATH) bin
 
 lint: $(GOLINT)
-	$(GOLINT) -set_exit_status $(GOPACKAGES)
+	$(GOLINT) -set_exit_status ./...
 
 fmt:
 	@echo "Running gofmt on $(GOFILES)"
@@ -35,7 +38,7 @@ fmt:
 		  fi;
 
 test: deps
-	cd $(BASE) && $(GO) test $(GOPACKAGES)
+	cd $(BASE) && $(GO) test ./...
 
 deps: $(BASE) $(GODEP)
 	cd $(BASE) && $(GODEP) ensure
@@ -48,6 +51,9 @@ source: $(BASE)
 
 $(GOLINT): $(BASE)
 	$(GO) get github.com/golang/lint/golint
+
+$(GOX): $(BASE)
+	$(GO) get github.com/mitchellh/gox
 
 $(GODEP): $(BASE)
 	$(GO) get github.com/golang/dep/cmd/dep
