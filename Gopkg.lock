@@ -2,6 +2,15 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/akerl/go-lambda"
+  packages = [
+    "apigw",
+    "s3"
+  ]
+  revision = "c51d472050a9db7c62d3e22591732f75ba9ca1b9"
+
+[[projects]]
   name = "github.com/akerl/madlibrarian"
   packages = ["utils"]
   revision = "87951e9740f7f3c019b7380725944708abd2ffb2"
@@ -73,6 +82,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "d8117c1431d5b550eca05aefdcf2e6f4e798167d2c632260e0d85c1bad76c723"
+  inputs-digest = "a0ff7c70b98a335e596f4b1193fad865a810151614ec37f883d0183ae4ce6556"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -1,85 +1,71 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
 
+	"github.com/akerl/go-lambda/apigw"
+	"github.com/akerl/go-lambda/s3"
 	"github.com/akerl/madlibrarian/utils"
-	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3"
 )
 
-// Handler responds to API Gateway requests
-func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	bucketName := getParam(request, "bucket")
-	storyName := getParam(request, "story")
+func loadQuote(params apigw.Params) (string, error) {
+	bucketName := params.Lookup("bucket")
+	storyName := params.Lookup("story")
+	storyObject := fmt.Sprintf("meta/%s.yml", storyName)
 
 	if bucketName == "" || storyName == "" {
-		return fail("settings not provided")
+		return "", fmt.Errorf("settings not provided")
 	}
 
-	config, err := configDownload(bucketName, storyName)
+	config, err := s3.GetObject(bucketName, storyObject)
 	if err != nil {
-		return fail("config not found")
+		return "", fmt.Errorf("config not found")
 	}
 
 	story, err := utils.NewStoryFromText(config)
 	if err != nil {
-		return fail("failed to parse config")
+		return "", fmt.Errorf("failed to parse config")
 	}
 	quote, err := story.Generate()
 	if err != nil {
-		return fail("failed to generate quote")
+		return "", fmt.Errorf("failed to generate quote")
 	}
 
-	return events.APIGatewayProxyResponse{
-		Body:       quote,
-		StatusCode: 200,
-	}, nil
+	return quote, nil
 }
 
-func configDownload(bucketName, storyName string) ([]byte, error) {
-	awsConfig := aws.NewConfig().WithCredentialsChainVerboseErrors(true)
-	sess := session.Must(session.NewSessionWithOptions(session.Options{
-		Config:            *awsConfig,
-		SharedConfigState: session.SharedConfigEnable,
-	}))
-	client := s3.New(sess)
-	obj, err := client.GetObject(&s3.GetObjectInput{
-		Bucket: aws.String(bucketName),
-		Key:    aws.String(fmt.Sprintf("meta/%s.yml", storyName)),
-	})
+type slackMessage struct {
+	Text         string `json:"text,omitempty"`
+	ResponseType string `json:"response_type,omitempty"`
+}
+
+func defaultHandler(req apigw.Request, params apigw.Params) (string, error) {
+	return loadQuote(params)
+}
+
+func slackHandler(req apigw.Request, params apigw.Params) (string, error) {
+	quote, err := loadQuote(params)
 	if err != nil {
-		return []byte{}, err
+		return "", err
 	}
-	return ioutil.ReadAll(obj.Body)
-}
-
-func getParam(request events.APIGatewayProxyRequest, name string) string {
-	options := []string{
-		request.StageVariables[name],
-		request.PathParameters[name],
-		os.Getenv(name),
+	msg := &slackMessage{
+		Text:         quote,
+		ResponseType: "in_channel",
 	}
-	for _, i := range options {
-		if i != "" {
-			return i
-		}
+	jsonMsg, err := json.Marshal(msg)
+	if err != nil {
+		return "", fmt.Errorf("failed to marshal response")
 	}
-	return ""
-}
-
-func fail(msg string) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
-		Body:       msg,
-		StatusCode: 500,
-	}, nil
+	return string(jsonMsg), nil
 }
 
 func main() {
-	lambda.Start(Handler)
+	lambda := apigw.Lambda{
+		Handlers: map[string]apigw.Handler{
+			"default": defaultHandler,
+			"slack":   slackHandler,
+		},
+	}
+	apigw.Start(lambda)
 }
