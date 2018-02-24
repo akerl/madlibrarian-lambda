@@ -13,6 +13,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 )
 
+// Handler responds to API Gateway requests
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	bucketName := getParam(request, "bucket")
 	storyName := getParam(request, "story")
