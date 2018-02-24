@@ -1,11 +1,12 @@
-.PHONY: default build clean lint fmt test deps source init update
+.PHONY: default build clean lint fmt test deps init update
 
 PACKAGE = madlibrarian-lambda
 NAMESPACE = github.com/akerl
 VERSION ?= $(shell git describe --tags --always --dirty --match=v* 2>/dev/null)
 export GOPATH = $(CURDIR)/.gopath
 BIN = $(GOPATH)/bin
-BASE = $(GOPATH)/src/$(NAMESPACE)/$(PACKAGE)
+BASEDIR = $(GOPATH)/src/$(NAMESPACE)
+BASE = $(BASEDIR)/$(PACKAGE)
 GOFILES = $(shell find . -type f -name '*.go' ! -path './.*' ! -path './vendor/*')
 
 GO = go
@@ -40,22 +41,22 @@ fmt:
 test: deps
 	cd $(BASE) && $(GO) test ./...
 
-init: source $(GODEP)
+init: $(BASE) $(GODEP)
 	cd $(BASE) && $(GODEP) init
 	cp $(BASE)/Gopkg.{lock,toml} ./
 
-update: source $(GODEP)
+update: $(BASE) $(GODEP)
 	cd $(BASE) && $(GODEP) ensure -update
 	cp $(BASE)/Gopkg.{lock,toml} ./
 
-deps: source $(GODEP)
+deps: $(BASE) $(GODEP)
 	cd $(BASE) && $(GODEP) ensure
 
-$(BASE):
-	mkdir -p $(dir $@)
+$(BASEDIR):
+	mkdir -p $(BASEDIR)
 
-source: $(BASE)
-	rsync -ax --delete --exclude '.gopath' --exclude '.git' --exclude vendor $(CURDIR)/ $(BASE)
+$(BASE): $(BASEDIR)
+	ln -s $(BASE) $(CURDIR)
 
 $(GOLINT): $(BASE)
 	$(GO) get github.com/golang/lint/golint
