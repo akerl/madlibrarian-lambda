@@ -7,8 +7,6 @@ madlibrarian-lambda
 
 Lambda for [madlibrarian](https://github.com/akerl/madlibrarian)
 
-Packages golang binary with python shim using [eawsy/aws-lambda-go-shim](https://github.com/eawsy/aws-lambda-go-shim)
-
 ## Usage
 
 ## Installation
