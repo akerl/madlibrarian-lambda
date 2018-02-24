@@ -8,7 +8,8 @@ source(
 
 build do
   run 'make'
-  run 'zip main.zip ./bin/madlibrarian-lambda_darwin'
+  run 'cp ./bin/madlibrarian-lambda_linux ./main'
+  run 'zip payload.zip ./main'
   cp 'payload.zip'
 end
 

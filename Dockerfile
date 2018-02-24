@@ -1,2 +1,2 @@
 FROM dock0/pkgforge
-RUN pacman -S --needed --noconfirm go rsync
+RUN pacman -S --needed --noconfirm go rsync zip
