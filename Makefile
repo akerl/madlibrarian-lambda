@@ -56,7 +56,7 @@ $(BASEDIR):
 	mkdir -p $(BASEDIR)
 
 $(BASE): $(BASEDIR)
-	ln -s $(BASE) $(CURDIR)
+	ln -s $(CURDIR) $(BASE)
 
 $(GOLINT): $(BASE)
 	$(GO) get github.com/golang/lint/golint
