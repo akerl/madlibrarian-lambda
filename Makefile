@@ -16,7 +16,7 @@ GOLINT = $(BIN)/golint
 GODEP = $(BIN)/dep
 
 build: $(BASE) deps $(GOX) fmt lint vet test
-	$(GOX) \
+	cd $(BASE) && $(GOX) \
 		-ldflags '-X $(NAMESPACE)/$(PACKAGE)/cmd.Version=$(VERSION)' \
 		-gocmd="$(GO)" \
 		-output="bin/$(PACKAGE)_{{.OS}}" \
