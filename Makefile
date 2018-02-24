@@ -1,4 +1,4 @@
-.PHONY: default build clean lint fmt test deps init update
+.PHONY: default build clean lint vet fmt test deps init update
 
 PACKAGE = madlibrarian-lambda
 NAMESPACE = github.com/akerl
@@ -15,8 +15,8 @@ GOX = $(BIN)/gox
 GOLINT = $(BIN)/golint
 GODEP = $(BIN)/dep
 
-build: $(BASE) deps $(GOX) fmt lint test
-	cd $(BASE) && $(GOX) \
+build: $(BASE) deps $(GOX) fmt lint vet test
+	$(GOX) \
 		-ldflags '-X $(NAMESPACE)/$(PACKAGE)/cmd.Version=$(VERSION)' \
 		-gocmd="$(GO)" \
 		-output="bin/$(PACKAGE)_{{.OS}}" \
@@ -28,7 +28,10 @@ clean:
 	rm -rf $(GOPATH) bin
 
 lint: $(GOLINT)
-	$(GOLINT) -set_exit_status ./...
+	$(GOLINT) -set_exit_status $$($(GO) list -f '{{.Dir}}' ./...)
+
+vet:
+	$(G0) vet ./...
 
 fmt:
 	@echo "Running gofmt on $(GOFILES)"
@@ -39,18 +42,16 @@ fmt:
 		  fi;
 
 test: deps
-	cd $(BASE) && $(GO) test ./...
+	$(GO) test ./...
 
 init: $(BASE) $(GODEP)
-	cd $(BASE) && $(GODEP) init
-	cp $(BASE)/Gopkg.{lock,toml} ./
+	$(GODEP) init
 
 update: $(BASE) $(GODEP)
-	cd $(BASE) && $(GODEP) ensure -update
-	cp $(BASE)/Gopkg.{lock,toml} ./
+	$(GODEP) ensure -update
 
 deps: $(BASE) $(GODEP)
-	cd $(BASE) && $(GODEP) ensure
+	$(GODEP) ensure
 
 $(BASEDIR):
 	mkdir -p $(BASEDIR)
