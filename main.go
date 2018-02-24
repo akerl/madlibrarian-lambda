@@ -60,11 +60,17 @@ func configDownload(bucketName, storyName string) ([]byte, error) {
 }
 
 func getParam(request events.APIGatewayProxyRequest, name string) string {
-	res := request.PathParameters[name]
-	if res == "" {
-		res = os.Getenv(name)
+	options := []string{
+		request.StageVariables[name],
+		request.PathParameters[name],
+		os.Getenv(name),
 	}
-	return res
+	for _, i := range options {
+		if i != "" {
+			return i
+		}
+	}
+	return ""
 }
 
 func fail(msg string) (events.APIGatewayProxyResponse, error) {
