@@ -1,4 +1,4 @@
-.PHONY: default build clean lint fmt test deps init update
+.PHONY: default build clean lint vet fmt test deps init update
 
 PACKAGE = madlibrarian-lambda
 NAMESPACE = github.com/akerl
@@ -15,7 +15,7 @@ GOX = $(BIN)/gox
 GOLINT = $(BIN)/golint
 GODEP = $(BIN)/dep
 
-build: $(BASE) deps $(GOX) fmt lint test
+build: $(BASE) deps $(GOX) fmt lint vet test
 	$(GOX) \
 		-ldflags '-X $(NAMESPACE)/$(PACKAGE)/cmd.Version=$(VERSION)' \
 		-gocmd="$(GO)" \
@@ -29,6 +29,9 @@ clean:
 
 lint: $(GOLINT)
 	$(GOLINT) -set_exit_status $$($(GO) list -f '{{.Dir}}' ./...)
+
+vet:
+	$(GO) vet ./...
 
 fmt:
 	@echo "Running gofmt on $(GOFILES)"
