@@ -45,13 +45,13 @@ test: deps
 	$(GO) test ./...
 
 init: $(BASE) $(GODEP)
-	$(GODEP) init
+	cd $(BASE) && $(GODEP) init
 
 update: $(BASE) $(GODEP)
-	$(GODEP) ensure -update
+	cd $(BASE) && $(GODEP) ensure -update
 
 deps: $(BASE) $(GODEP)
-	$(GODEP) ensure
+	cd $(BASE) && $(GODEP) ensure
 
 $(BASEDIR):
 	mkdir -p $(BASEDIR)
