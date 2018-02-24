@@ -7,7 +7,7 @@ source(
 )
 
 build do
-  run 'make'
+  run 'make local'
   run 'cp ./bin/madlibrarian-lambda_linux ./main'
   run 'zip payload.zip ./main'
   cp 'payload.zip'
