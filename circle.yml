@@ -17,3 +17,4 @@ deployment:
     tag: /.*/
     commands:
     - make release
+    - 'aws s3 cp $CIRCLE_ARTIFACTS/payload.zip "s3://akerl-madlibrarian/lambdas/payload-$CIRCLE_TAG.zip"'
