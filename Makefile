@@ -31,7 +31,7 @@ lint: $(GOLINT)
 	$(GOLINT) -set_exit_status $$($(GO) list -f '{{.Dir}}' ./...)
 
 vet:
-	$(GO) vet ./...
+	cd $(BASE) && $(GO) vet ./...
 
 fmt:
 	@echo "Running gofmt on $(GOFILES)"
@@ -42,7 +42,7 @@ fmt:
 		  fi;
 
 test: deps
-	$(GO) test ./...
+	cd $(BASE) && $(GO) test ./...
 
 init: $(BASE) $(GODEP)
 	cd $(BASE) && $(GODEP) init
