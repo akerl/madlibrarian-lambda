@@ -31,7 +31,7 @@ lint: $(GOLINT)
 	$(GOLINT) -set_exit_status $$($(GO) list -f '{{.Dir}}' ./...)
 
 vet:
-	$(GO) vet ./...
+	$(GO) tool vet ./...
 
 fmt:
 	@echo "Running gofmt on $(GOFILES)"
