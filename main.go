@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/akerl/go-lambda/apigw"
@@ -9,7 +8,7 @@ import (
 	"github.com/akerl/madlibrarian/utils"
 )
 
-func loadQuote(params apigw.Params) (string, error) {
+func loadQuote(req apigw.Request, params apigw.Params) (interface{}, error) {
 	bucketName := params.Lookup("bucket")
 	storyName := params.Lookup("story")
 	storyObject := fmt.Sprintf("meta/%s.yml", storyName)
@@ -35,37 +34,16 @@ func loadQuote(params apigw.Params) (string, error) {
 	return quote, nil
 }
 
-type slackMessage struct {
-	Text         string `json:"text,omitempty"`
-	ResponseType string `json:"response_type,omitempty"`
-}
-
-func defaultHandler(req apigw.Request, params apigw.Params) (string, error) {
-	return loadQuote(params)
-}
-
-func slackHandler(req apigw.Request, params apigw.Params) (string, error) {
-	quote, err := loadQuote(params)
-	if err != nil {
-		return "", err
-	}
-	msg := &slackMessage{
-		Text:         quote,
-		ResponseType: "in_channel",
-	}
-	jsonMsg, err := json.Marshal(msg)
-	if err != nil {
-		return "", fmt.Errorf("failed to marshal response")
-	}
-	return string(jsonMsg), nil
-}
-
 func main() {
-	lambda := apigw.Lambda{
-		Handlers: map[string]apigw.Handler{
-			"default": defaultHandler,
-			"slack":   slackHandler,
+	r := apigw.Router{
+		Handlers: apigw.HandlerSet{
+			&apigw.SlackHandler{
+				Func: loadQuote,
+			},
+			&apigw.TextHandler{
+				Func: loadQuote,
+			},
 		},
 	}
-	apigw.Start(lambda)
+	apigw.Start(r)
 }
