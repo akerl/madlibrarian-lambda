@@ -8,13 +8,13 @@
     "apigw",
     "s3"
   ]
-  revision = "6a424023bc2661c175480a6fbf9385c9a998b064"
+  revision = "341d7391ce270df43223cafaefb68c973dc23e8d"
 
 [[projects]]
+  branch = "master"
   name = "github.com/akerl/madlibrarian"
   packages = ["utils"]
-  revision = "87951e9740f7f3c019b7380725944708abd2ffb2"
-  version = "0.0.3"
+  revision = "cc954bfe06dd7901c811c3507c5e9f12c6f4aab7"
 
 [[projects]]
   name = "github.com/aws/aws-lambda-go"
@@ -59,8 +59,8 @@
     "service/s3/s3manager",
     "service/sts"
   ]
-  revision = "f7f1ee9550cc76ceea731d99c8dbe00a0c39f66d"
-  version = "v1.13.4"
+  revision = "9a79087b1148376f4dd860c188c948479e2def3b"
+  version = "v1.13.7"
 
 [[projects]]
   name = "github.com/go-ini/ini"
@@ -94,6 +94,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a0ff7c70b98a335e596f4b1193fad865a810151614ec37f883d0183ae4ce6556"
+  inputs-digest = "cb7afac437952269223e356a6577b2bf76a4470759882e0d1a173d9d206dccc7"
   solver-name = "gps-cdcl"
   solver-version = 1

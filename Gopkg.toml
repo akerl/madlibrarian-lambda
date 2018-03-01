@@ -30,8 +30,8 @@
   name = "github.com/akerl/go-lambda"
 
 [[constraint]]
+  branch = "master"
   name = "github.com/akerl/madlibrarian"
-  version = "0.0.3"
 
 [prune]
   go-tests = true
