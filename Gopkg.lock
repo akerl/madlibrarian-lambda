@@ -8,13 +8,13 @@
     "apigw",
     "s3"
   ]
-  revision = "341d7391ce270df43223cafaefb68c973dc23e8d"
+  revision = "85a8202918ae6b2ff9c61a4c76ea66e3dd714913"
 
 [[projects]]
   branch = "master"
   name = "github.com/akerl/madlibrarian"
   packages = ["utils"]
-  revision = "cc954bfe06dd7901c811c3507c5e9f12c6f4aab7"
+  revision = "5180b789165db675ab62b762002c010d613a1e42"
 
 [[projects]]
   name = "github.com/aws/aws-lambda-go"
@@ -59,8 +59,8 @@
     "service/s3/s3manager",
     "service/sts"
   ]
-  revision = "9a79087b1148376f4dd860c188c948479e2def3b"
-  version = "v1.13.7"
+  revision = "aace5875a5c3b85a3902c6d72b9caed301d64cce"
+  version = "v1.13.8"
 
 [[projects]]
   name = "github.com/go-ini/ini"
