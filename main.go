@@ -3,9 +3,13 @@ package main
 import (
 	"fmt"
 
-	"github.com/akerl/go-lambda/apigw"
+	"github.com/akerl/go-lambda/apigw/dispatch"
+	"github.com/akerl/go-lambda/apigw/dispatch/handlers/slack"
+	"github.com/akerl/go-lambda/apigw/dispatch/handlers/text"
+	"github.com/akerl/go-lambda/apigw/events"
 	"github.com/akerl/go-lambda/s3"
 	"github.com/akerl/madlibrarian/utils"
+	slackApi "github.com/nlopes/slack"
 )
 
 type storySet map[string]*utils.Story
@@ -34,7 +38,8 @@ func cacheStory(bucketName, storyName string) (*utils.Story, error) {
 	return cache[bucketName][storyName], nil
 }
 
-func loadQuote(req apigw.Request, params apigw.Params) (interface{}, error) {
+func loadQuote(req events.Request) (string, error) {
+	params := events.Params{Request: &req}
 	bucketName := params.Lookup("bucket")
 	storyName := params.Lookup("story")
 
@@ -55,16 +60,27 @@ func loadQuote(req apigw.Request, params apigw.Params) (interface{}, error) {
 	return quote, nil
 }
 
+func loadSlackQuote(req events.Request) (*slackApi.Msg, error) {
+	body, err := loadQuote(req)
+	if err != nil {
+		return &slackApi.Msg{}, err
+	}
+	return &slackApi.Msg{
+		Text:         body,
+		ResponseType: "in_channel",
+	}, nil
+}
+
 func main() {
-	r := apigw.Router{
-		Handlers: apigw.HandlerSet{
-			&apigw.SlackHandler{
-				Func: loadQuote,
+	d := dispatch.Dispatcher{
+		Receivers: []dispatch.Receiver{
+			&slack.Handler{
+				Func: loadSlackQuote,
 			},
-			&apigw.TextHandler{
+			&text.Handler{
 				Func: loadQuote,
 			},
 		},
 	}
-	apigw.Start(r)
+	d.Start()
 }

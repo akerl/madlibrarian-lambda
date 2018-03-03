@@ -2,13 +2,16 @@
 
 
 [[projects]]
-  branch = "master"
   name = "github.com/akerl/go-lambda"
   packages = [
-    "apigw",
+    "apigw/dispatch",
+    "apigw/dispatch/handlers/slack",
+    "apigw/dispatch/handlers/text",
+    "apigw/events",
     "s3"
   ]
-  revision = "85a8202918ae6b2ff9c61a4c76ea66e3dd714913"
+  revision = "015eca41d013e4fa253a1652ce0477febeb72552"
+  version = "0.0.1"
 
 [[projects]]
   branch = "master"
@@ -94,6 +97,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "cb7afac437952269223e356a6577b2bf76a4470759882e0d1a173d9d206dccc7"
+  inputs-digest = "bb1d3360a2a0cd694e698c89f98b252aec3e0696dd0a8cb0b149b2e4aca97b1f"
   solver-name = "gps-cdcl"
   solver-version = 1
