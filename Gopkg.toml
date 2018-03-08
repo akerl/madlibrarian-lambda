@@ -26,12 +26,12 @@
 
 
 [[constraint]]
-  branch = "master"
   name = "github.com/akerl/go-lambda"
+  version = "0.0.4"
 
 [[constraint]]
-  branch = "master"
   name = "github.com/akerl/madlibrarian"
+  version = "0.0.4"
 
 [prune]
   go-tests = true
