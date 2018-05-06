@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/akerl/github-auth-lambda"
+  packages = ["session"]
+  revision = "473763be2fd14eb8bf88be0e338e7bf3849a9f0d"
+
+[[projects]]
   name = "github.com/akerl/go-lambda"
   packages = [
     "apigw/dispatch",
@@ -10,8 +16,8 @@
     "apigw/events",
     "s3"
   ]
-  revision = "972b51e60a0dd1d2fd1606567553333b2689dd89"
-  version = "0.0.10"
+  revision = "acb2a9e28fcf9b04acf2d88883d4bb99f0a7ea21"
+  version = "0.0.11"
 
 [[projects]]
   name = "github.com/akerl/madlibrarian"
@@ -63,14 +69,26 @@
     "service/s3/s3manager",
     "service/sts"
   ]
-  revision = "f0872da8a448f8cb10f4f0c95c2100e4f7356448"
-  version = "v1.13.16"
+  revision = "4f5d298bd2dcb34b06d944594f458d1f77ac4d66"
+  version = "v1.13.42"
+
+[[projects]]
+  name = "github.com/ghodss/yaml"
+  packages = ["."]
+  revision = "0ca9ea5df5451ffdf184b4428c902747c2c11cd7"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/go-ini/ini"
   packages = ["."]
-  revision = "6333e38ac20b8949a8dd68baa3650f4dee8f39f0"
-  version = "v1.33.0"
+  revision = "6529cf7c58879c08d927016dde4477f18a0634cb"
+  version = "v1.36.0"
+
+[[projects]]
+  name = "github.com/gorilla/securecookie"
+  packages = ["."]
+  revision = "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983"
+  version = "v1.1.1"
 
 [[projects]]
   name = "github.com/gorilla/websocket"
@@ -92,12 +110,12 @@
 [[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
-  revision = "7f97868eec74b32b0982dd158a51a446d1da7eb5"
-  version = "v2.1.1"
+  revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
+  version = "v2.2.1"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fc9116192a44ad9e3689d723227b967ab0bb9d45774caaa48e4e3551be01fed9"
+  inputs-digest = "597ca11d6c936d04384c73fcfa397252e33b9e641c50b0e02d03d17e9698599b"
   solver-name = "gps-cdcl"
   solver-version = 1

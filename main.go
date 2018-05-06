@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/akerl/github-auth-lambda/session"
 	"github.com/akerl/go-lambda/apigw/dispatch"
 	"github.com/akerl/go-lambda/apigw/dispatch/handlers/slack"
 	"github.com/akerl/go-lambda/apigw/dispatch/handlers/text"
@@ -16,6 +17,7 @@ type storySet map[string]*utils.Story
 type bucketSet map[string]storySet
 
 var cache = make(bucketSet)
+var sm *session.Manager
 
 func cacheStory(bucketName, storyName string) (*utils.Story, error) {
 	if cache[bucketName] == nil {
@@ -72,13 +74,29 @@ func loadSlackQuote(req events.Request) (*slackApi.Msg, error) {
 }
 
 func main() {
+	var err error
+	config, err = loadConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	sm = &session.Manager{
+		Name:     "session",
+		SignKey:  config.SignKey,
+		EncKey:   config.EncKey,
+		Lifetime: config.Lifetime,
+		Domain:   config.Domain,
+	}
+
 	d := dispatch.Dispatcher{
 		Receivers: []dispatch.Receiver{
 			&slack.Handler{
-				Func: loadSlackQuote,
+				Func:        loadSlackQuote,
+				SlackTokens: config.SlackTokens,
 			},
 			&text.Handler{
 				Func: loadQuote,
+				Auth: authCheck,
 			},
 		},
 	}
