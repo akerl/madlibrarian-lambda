@@ -16,8 +16,8 @@
     "apigw/events",
     "s3"
   ]
-  revision = "acb2a9e28fcf9b04acf2d88883d4bb99f0a7ea21"
-  version = "0.0.11"
+  revision = "800a5d5de158381eb546d091e686a16ec363b07b"
+  version = "0.0.13"
 
 [[projects]]
   name = "github.com/akerl/madlibrarian"
@@ -69,8 +69,14 @@
     "service/s3/s3manager",
     "service/sts"
   ]
-  revision = "4f5d298bd2dcb34b06d944594f458d1f77ac4d66"
-  version = "v1.13.42"
+  revision = "d3bdbc0c838508b38782f91c504fcf719a8722a7"
+  version = "v1.13.43"
+
+[[projects]]
+  name = "github.com/ghodss/yaml"
+  packages = ["."]
+  revision = "0ca9ea5df5451ffdf184b4428c902747c2c11cd7"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/go-ini/ini"
@@ -110,6 +116,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "09e4173f67932d972199e71f5a71299c81449bf3611392f606a5e6af6395a67a"
+  inputs-digest = "6ff58c0ab3995c39171ae47cd10c49966f27a0633649dde59fce28c1750db594"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -40,13 +40,71 @@ func cacheStory(bucketName, storyName string) (*utils.Story, error) {
 	return cache[bucketName][storyName], nil
 }
 
-func loadQuote(req events.Request) (string, error) {
+func parseStory(req events.Request) (string, string, error) {
 	params := events.Params{Request: &req}
 	bucketName := params.Lookup("bucket")
 	storyName := params.Lookup("story")
 
 	if bucketName == "" || storyName == "" {
-		return "", fmt.Errorf("settings not provided")
+		return "", "", fmt.Errorf("settings not provided")
+	}
+	return bucketName, storyName, nil
+}
+
+func authFunc(req events.Request) (events.Response, error) {
+	bucketName, storyName, err := parseStory(req)
+	if err != nil {
+		return events.Response{
+			StatusCode: 500,
+			Body:       "failed to authenticate request",
+		}, err
+	}
+
+	aclName := fmt.Sprintf("%s/%s", bucketName, storyName)
+	acl, ok := config.ACLs[aclName]
+	if !ok {
+		acl = config.ACLs["default"]
+	}
+
+	sess, err := sm.Read(req)
+	if err != nil {
+		return events.Response{
+			StatusCode: 500,
+			Body:       "failed to authenticate request",
+		}, err
+	}
+
+	if sess.Login == "" {
+		returnURL := url.URL{
+			Host:   req.Headers["Host"],
+			Path:   req.Path,
+			Scheme: "https",
+		}
+		sess.Target = returnURL.String()
+
+		return events.Response{
+			StatusCode: 303,
+			Headers: map[string]string{
+				"Location": config.AuthURL,
+			},
+		}, fmt.Errorf("not authenticated")
+	}
+
+	for _, i := range acl {
+		org, team := strings.SplitN(acl, "/", 2)
+
+	}
+
+	return events.Response{
+		StatusCode: 403,
+		Body:       "not authenticated",
+	}, fmt.Errorf("not authenticated")
+}
+
+func loadQuote(req events.Request) (string, error) {
+	bucketName, storyName, err := parseStory(req)
+	if err != nil {
+		return "", err
 	}
 
 	story, err := cacheStory(bucketName, storyName)
@@ -95,8 +153,8 @@ func main() {
 				SlackTokens: config.SlackTokens,
 			},
 			&text.Handler{
-				Func: loadQuote,
-				Auth: authCheck,
+				Func:     loadQuote,
+				AuthFunc: authFunc,
 			},
 		},
 	}
