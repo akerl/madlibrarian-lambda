@@ -97,6 +97,11 @@ func authFunc(req events.Request) (events.Response, error) {
 		}, err
 	}
 
+	aclName := fmt.Sprintf("%s/%s", bucketName, storyName)
+	if aclCheck(aclName, sess) {
+		return events.Response{}, nil
+	}
+
 	if sess.Login == "" {
 		returnURL := url.URL{
 			Host:   req.Headers["Host"],
@@ -111,11 +116,6 @@ func authFunc(req events.Request) (events.Response, error) {
 				"Location": config.AuthURL,
 			},
 		}, fmt.Errorf("not authenticated")
-	}
-
-	aclName := fmt.Sprintf("%s/%s", bucketName, storyName)
-	if aclCheck(aclName, sess) {
-		return events.Response{}, nil
 	}
 
 	return events.Response{
