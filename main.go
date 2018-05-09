@@ -60,6 +60,9 @@ func aclCheck(aclName string, sess session.Session) bool {
 	}
 
 	for _, aclEntry := range acl {
+		if aclEntry == "anonymous" {
+			return true
+		}
 		aclSlice := strings.SplitN(aclEntry, "/", 2)
 		aclOrg, aclTeam := aclSlice[0], aclSlice[1]
 		userOrgTeams, ok := sess.Memberships[aclOrg]
