@@ -5,7 +5,7 @@
   branch = "master"
   name = "github.com/akerl/github-auth-lambda"
   packages = ["session"]
-  revision = "ebb921f8256d7d789aeabb1daf3be01361aa3453"
+  revision = "cb2b81660f6adc7f620c12660c72f72d670d3aa1"
 
 [[projects]]
   name = "github.com/akerl/go-lambda"
