@@ -64,14 +64,13 @@ func aclCheck(aclName string, sess session.Session) bool {
 			return true
 		}
 		aclSlice := strings.SplitN(aclEntry, "/", 2)
-		aclOrg, aclTeam := aclSlice[0], aclSlice[1]
-		userOrgTeams, ok := sess.Memberships[aclOrg]
+		userOrgTeams, ok := sess.Memberships[aclSlice[0]]
 		if ok {
-			if aclTeam == "" {
+			if len(aclSlice) == 1 {
 				return true
 			}
 			for _, userTeam := range userOrgTeams {
-				if userTeam == aclTeam {
+				if userTeam == aclSlice[1] {
 					return true
 				}
 			}
@@ -86,7 +85,7 @@ func authFunc(req events.Request) (events.Response, error) {
 		return events.Response{
 			StatusCode: 500,
 			Body:       "failed to authenticate request",
-		}, err
+		}, nil
 	}
 
 	sess, err := sm.Read(req)
@@ -94,7 +93,7 @@ func authFunc(req events.Request) (events.Response, error) {
 		return events.Response{
 			StatusCode: 500,
 			Body:       "failed to authenticate request",
-		}, err
+		}, nil
 	}
 
 	aclName := fmt.Sprintf("%s/%s", bucketName, storyName)
@@ -115,13 +114,13 @@ func authFunc(req events.Request) (events.Response, error) {
 			Headers: map[string]string{
 				"Location": config.AuthURL,
 			},
-		}, fmt.Errorf("not authenticated")
+		}, nil
 	}
 
 	return events.Response{
 		StatusCode: 403,
 		Body:       "not authenticated",
-	}, fmt.Errorf("not authenticated")
+	}, nil
 }
 
 func loadQuote(req events.Request) (string, error) {

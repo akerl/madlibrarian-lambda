@@ -2,10 +2,10 @@
 
 
 [[projects]]
-  branch = "master"
   name = "github.com/akerl/github-auth-lambda"
   packages = ["session"]
   revision = "cb2b81660f6adc7f620c12660c72f72d670d3aa1"
+  version = "0.0.4"
 
 [[projects]]
   name = "github.com/akerl/go-lambda"
@@ -16,8 +16,8 @@
     "apigw/events",
     "s3"
   ]
-  revision = "800a5d5de158381eb546d091e686a16ec363b07b"
-  version = "0.0.13"
+  revision = "b41d02a35668d975279a1360c59f27e01e56b562"
+  version = "0.0.17"
 
 [[projects]]
   name = "github.com/akerl/madlibrarian"
