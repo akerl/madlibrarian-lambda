@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"net/url"
+	"strings"
 
 	"github.com/akerl/github-auth-lambda/session"
 	"github.com/akerl/go-lambda/apigw/dispatch"
@@ -51,6 +53,30 @@ func parseStory(req events.Request) (string, string, error) {
 	return bucketName, storyName, nil
 }
 
+func aclCheck(aclName string, sess session.Session) bool {
+	acl, ok := config.ACLs[aclName]
+	if !ok {
+		acl = config.ACLs["default"]
+	}
+
+	for _, aclEntry := range acl {
+		aclSlice := strings.SplitN(aclEntry, "/", 2)
+		aclOrg, aclTeam := aclSlice[0], aclSlice[1]
+		userOrgTeams, ok := sess.Memberships[aclOrg]
+		if ok {
+			if aclTeam == "" {
+				return true
+			}
+			for _, userTeam := range userOrgTeams {
+				if userTeam == aclTeam {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
 func authFunc(req events.Request) (events.Response, error) {
 	bucketName, storyName, err := parseStory(req)
 	if err != nil {
@@ -58,12 +84,6 @@ func authFunc(req events.Request) (events.Response, error) {
 			StatusCode: 500,
 			Body:       "failed to authenticate request",
 		}, err
-	}
-
-	aclName := fmt.Sprintf("%s/%s", bucketName, storyName)
-	acl, ok := config.ACLs[aclName]
-	if !ok {
-		acl = config.ACLs["default"]
 	}
 
 	sess, err := sm.Read(req)
@@ -90,9 +110,9 @@ func authFunc(req events.Request) (events.Response, error) {
 		}, fmt.Errorf("not authenticated")
 	}
 
-	for _, i := range acl {
-		org, team := strings.SplitN(acl, "/", 2)
-
+	aclName := fmt.Sprintf("%s/%s", bucketName, storyName)
+	if aclCheck(aclName, sess) {
+		return events.Response{}, nil
 	}
 
 	return events.Response{

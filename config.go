@@ -17,8 +17,8 @@ type configFile struct {
 	SignKey       []byte              `json:"-"`
 	EncKey        []byte              `json:"-"`
 	SlackTokens   []string            `json:"slacktokens"`
-	ACLS          map[string][]string `json:"acls"`
-	AuthURL       string              `json:"acls"`
+	ACLs          map[string][]string `json:"acls"`
+	AuthURL       string              `json:"authurl"`
 }
 
 var config *configFile
