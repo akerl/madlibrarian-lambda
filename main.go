@@ -102,17 +102,24 @@ func authFunc(req events.Request) (events.Response, error) {
 	}
 
 	if sess.Login == "" {
+		authURL, err := url.Parse(config.AuthURL)
+		if err != nil {
+			return events.Response{}, err
+		}
+
 		returnURL := url.URL{
 			Host:   req.Headers["Host"],
 			Path:   req.Path,
 			Scheme: "https",
 		}
-		sess.Target = returnURL.String()
+		returnValues := authURL.Query()
+		returnValues.Set("redirect", returnURL.String())
+		authURL.RawQuery = returnValues.Encode()
 
 		return events.Response{
 			StatusCode: 303,
 			Headers: map[string]string{
-				"Location": config.AuthURL,
+				"Location": authURL.String(),
 			},
 		}, nil
 	}
