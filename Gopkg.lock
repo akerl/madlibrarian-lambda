@@ -4,8 +4,8 @@
 [[projects]]
   name = "github.com/akerl/github-auth-lambda"
   packages = ["session"]
-  revision = "cb2b81660f6adc7f620c12660c72f72d670d3aa1"
-  version = "0.0.4"
+  revision = "8d92db416c3c03874e680c3f987ebf5e30705ff7"
+  version = "0.0.5"
 
 [[projects]]
   name = "github.com/akerl/go-lambda"
