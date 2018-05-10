@@ -16,8 +16,8 @@
     "apigw/events",
     "s3"
   ]
-  revision = "b41d02a35668d975279a1360c59f27e01e56b562"
-  version = "0.0.17"
+  revision = "6dda7b7c070b3adaaf51e2fddeb3c112f479c5fe"
+  version = "0.0.18"
 
 [[projects]]
   name = "github.com/akerl/madlibrarian"
@@ -69,8 +69,8 @@
     "service/s3/s3manager",
     "service/sts"
   ]
-  revision = "31bd69f7db00cbf3d85d129e16d42304cb6e455f"
-  version = "v1.13.44"
+  revision = "2e04cd1d1af06ff041e6036745e8b100e2e5f426"
+  version = "v1.13.46"
 
 [[projects]]
   name = "github.com/ghodss/yaml"
