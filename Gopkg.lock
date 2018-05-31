@@ -5,7 +5,7 @@
   branch = "master"
   name = "github.com/akerl/github-auth-lambda"
   packages = ["session"]
-  revision = "d436730d26304e44c57c32cb8c744a5c92a561b4"
+  revision = "4b5da171b5e8976e92a1968b4e751bc5af413568"
 
 [[projects]]
   name = "github.com/akerl/go-lambda"
@@ -69,8 +69,8 @@
     "service/s3/s3manager",
     "service/sts"
   ]
-  revision = "398d14696895d68a3409bb3ccb1cfe8abc2d4376"
-  version = "v1.13.57"
+  revision = "827e7eac8c2680d5bdea7bc3ef29c596eabe1eae"
+  version = "v1.13.59"
 
 [[projects]]
   name = "github.com/ghodss/yaml"
