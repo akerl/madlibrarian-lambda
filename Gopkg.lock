@@ -5,7 +5,7 @@
   branch = "master"
   name = "github.com/akerl/github-auth-lambda"
   packages = ["session"]
-  revision = "8e0178bd7674dcc6781fd0406e042b96c4d7a0e3"
+  revision = "a0d4d1f5d92784ad3713e7ac47cb3b5b43e2e8f9"
 
 [[projects]]
   name = "github.com/akerl/go-lambda"
@@ -49,6 +49,7 @@
     "aws/credentials/ec2rolecreds",
     "aws/credentials/endpointcreds",
     "aws/credentials/stscreds",
+    "aws/csm",
     "aws/defaults",
     "aws/ec2metadata",
     "aws/endpoints",
@@ -59,6 +60,8 @@
     "internal/sdkrand",
     "internal/shareddefaults",
     "private/protocol",
+    "private/protocol/eventstream",
+    "private/protocol/eventstream/eventstreamapi",
     "private/protocol/query",
     "private/protocol/query/queryutil",
     "private/protocol/rest",
@@ -69,8 +72,8 @@
     "service/s3/s3manager",
     "service/sts"
   ]
-  revision = "5197757a58a794d49d2d0c50a932997157734100"
-  version = "v1.13.60"
+  revision = "d2d4fca90395039f60821c231da759cab8f318c7"
+  version = "v1.14.4"
 
 [[projects]]
   name = "github.com/ghodss/yaml"
