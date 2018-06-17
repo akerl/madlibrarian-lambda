@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/akerl/go-lambda/s3"
-	"github.com/ghodss/yaml"
 )
 
 type configFile struct {
@@ -25,19 +24,7 @@ var config *configFile
 
 func loadConfig() (*configFile, error) {
 	c := configFile{}
-
-	bucket := os.Getenv("S3_BUCKET")
-	path := os.Getenv("S3_KEY")
-	if bucket == "" || path == "" {
-		return &c, fmt.Errorf("config location not provided")
-	}
-
-	obj, err := s3.GetObject(bucket, path)
-	if err != nil {
-		return &c, err
-	}
-
-	err = yaml.Unmarshal(obj, &c)
+	err := s3.GetConfigFromEnv(&c)
 	if err != nil {
 		return &c, err
 	}
