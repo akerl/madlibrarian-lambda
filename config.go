@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
-	"os"
 
 	"github.com/akerl/go-lambda/s3"
 )
