@@ -27,6 +27,10 @@ func loadConfig() (*configFile, error) {
 	if err != nil {
 		return &c, err
 	}
+	cf.OnError = func(_ *s3.ConfigFile, err error) {
+		fmt.Println(err)
+	}
+	cf.Autoreload(60)
 
 	if c.Lifetime == 0 {
 		c.Lifetime = 86400
