@@ -4,8 +4,8 @@
 [[projects]]
   name = "github.com/akerl/github-auth-lambda"
   packages = ["session"]
-  revision = "8d92db416c3c03874e680c3f987ebf5e30705ff7"
-  version = "0.0.5"
+  revision = "227cef3bb752b1a07f5fca3ad6551b824e18267e"
+  version = "0.0.6"
 
 [[projects]]
   name = "github.com/akerl/go-lambda"
@@ -16,8 +16,8 @@
     "apigw/events",
     "s3"
   ]
-  revision = "6dda7b7c070b3adaaf51e2fddeb3c112f479c5fe"
-  version = "0.0.18"
+  revision = "1ae7f885102875375929551b4d605153c1ad294e"
+  version = "0.1.0"
 
 [[projects]]
   name = "github.com/akerl/madlibrarian"
@@ -72,8 +72,8 @@
     "service/s3/s3manager",
     "service/sts"
   ]
-  revision = "fde4ded7becdeae4d26bf1212916aabba79349b4"
-  version = "v1.14.12"
+  revision = "e79e9fd4ec11ccc242a472f980be78830f9eba80"
+  version = "v1.14.13"
 
 [[projects]]
   name = "github.com/go-ini/ini"
@@ -113,6 +113,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "db811875b3f7c15d62a9298ed232619786ad7c7b1e279204ca153eb2838e0892"
+  inputs-digest = "de7838f2cc9ad8c8d33548c6fe9a291ac7494fd737857c7ccc50e3ff8b6b7b98"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/akerl/github-auth-lambda/session"
 	"github.com/akerl/go-lambda/apigw/dispatch"
@@ -15,7 +16,12 @@ import (
 	slackApi "github.com/nlopes/slack"
 )
 
-type storySet map[string]*utils.Story
+type cachedStory struct {
+	Timestamp int64
+	Story     *utils.Story
+}
+
+type storySet map[string]*cachedStory
 type bucketSet map[string]storySet
 
 var cache = make(bucketSet)
@@ -25,21 +31,25 @@ func cacheStory(bucketName, storyName string) (*utils.Story, error) {
 	if cache[bucketName] == nil {
 		cache[bucketName] = make(storySet)
 	}
-	if cache[bucketName][storyName] == nil {
+	cs := cache[bucketName][storyName]
+	if cs == nil || cs.Timestamp+config.RefreshRate < time.Now().Unix() {
 		storyObject := fmt.Sprintf("meta/%s.yml", storyName)
 
-		config, err := s3.GetObject(bucketName, storyObject)
+		storyObj, err := s3.GetObject(bucketName, storyObject)
 		if err != nil {
 			return &utils.Story{}, fmt.Errorf("config not found")
 		}
 
-		story, err := utils.NewStoryFromText(config)
+		story, err := utils.NewStoryFromText(storyObj)
 		if err != nil {
 			return &utils.Story{}, fmt.Errorf("failed to parse config")
 		}
-		cache[bucketName][storyName] = &story
+		cache[bucketName][storyName] = &cachedStory{
+			Timestamp: time.Now().Unix(),
+			Story:     &story,
+		}
 	}
-	return cache[bucketName][storyName], nil
+	return cache[bucketName][storyName].Story, nil
 }
 
 func parseStory(req events.Request) (string, string, error) {

@@ -17,13 +17,14 @@ type configFile struct {
 	SlackTokens   []string            `json:"slacktokens"`
 	ACLs          map[string][]string `json:"acls"`
 	AuthURL       string              `json:"authurl"`
+	RefreshRate   int64               `json:"refreshrate"`
 }
 
 var config *configFile
 
 func loadConfig() (*configFile, error) {
 	c := configFile{}
-	err := s3.GetConfigFromEnv(&c)
+	cf, err := s3.GetConfigFromEnv(&c)
 	if err != nil {
 		return &c, err
 	}
@@ -51,6 +52,10 @@ func loadConfig() (*configFile, error) {
 
 	if c.AuthURL == "" {
 		return &c, fmt.Errorf("auth url not set")
+	}
+
+	if c.RefreshRate == 0 {
+		c.RefreshRate = 900
 	}
 
 	return &c, nil
