@@ -31,7 +31,7 @@
 
 [[constraint]]
   name = "github.com/akerl/go-lambda"
-  version = "0.2.0"
+  version = "0.2.3"
 
 [[constraint]]
   name = "github.com/akerl/madlibrarian"
@@ -39,7 +39,7 @@
 
 [[constraint]]
   name = "github.com/nlopes/slack"
-  version = "0.2.0"
+  version = "0.3.0"
 
 [prune]
   go-tests = true

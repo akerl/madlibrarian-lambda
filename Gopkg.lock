@@ -16,8 +16,8 @@
     "apigw/events",
     "s3"
   ]
-  revision = "4b756535142af8f3bf72deeed9a30d648dff3e18"
-  version = "0.2.0"
+  revision = "3d505c32ffe120d3e8dab6c6e34e4ad92aa23c7a"
+  version = "0.2.3"
 
 [[projects]]
   name = "github.com/akerl/madlibrarian"
@@ -108,8 +108,8 @@
 [[projects]]
   name = "github.com/nlopes/slack"
   packages = ["."]
-  revision = "8ab4d0b364ef1e9af5d102531da20d5ec902b6c4"
-  version = "v0.2.0"
+  revision = "0db1d5eae1116bf7c8ed96c6749acfbf4daaec3e"
+  version = "v0.3.0"
 
 [[projects]]
   name = "gopkg.in/yaml.v2"
@@ -120,6 +120,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "03952e5e50a0646d2e43334749d6d0d1d74169b7518befee8d65ca1b87f058c0"
+  inputs-digest = "5383fd7d3409a862005187cea42e331cebf0bdba177785741a0705da612e6472"
   solver-name = "gps-cdcl"
   solver-version = 1
