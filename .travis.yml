@@ -4,15 +4,16 @@ services:
 - docker
 env:
   global:
+  - PATH=$HOME/.local/bin:$PATH
   - PKGFORGE_STATEFILE=/tmp/pkgforge
   - BUCKET=akerl-madlibrarian
+  - secure: AQxqUZMS3sKPOrTJeL8GzqwnNEaoGL6zlN4jDFcE7JC/ZpVD075g7sb7f076eJQaBuNBOGM/809k2GXIHP+CXs4DH6KDz+t3I9+wdf0WlMNvwSyLv6gg6CWuebuccN+DnbQbnVwJ/VYrzFPVyZj28Gnv+5c+V141iCgLWd3UT+bjndRdzgy4Q3kpCLia1hHDlWXoLsrcX3fXeFA5b+01rX564p9IMUGmy20tjK7S5JSh8uBja7XumKidSaKc+lD+9GKZNTD3M3MMznuxcFFKn42K1OL6kpQqdROU6N6ipHxaah7PA8Ss2QrdmaVDlypQ/OLuh1IHhLT/pIKNjSzQpljZCN1Z6erjfIVaGr7bWZAMPZh9PR++BUfWVPhRzCsKHLRdkGnysRTXhm41TIGAHyMzzyTwk1tOyUXL28oij4Tnkdr8J55jX6IRcBHUXF8d77UoFKn56D90m1lXGllvcBItmkSEYHkHpM8an9A8viNE8BBhgnjlJWRT40YwDoM5B0RwyKkD9Y2kSGvMPAg7jQwgNHU5lP9ECnlpSRaCs/LMizVoJmx2AAlzRIy3nUWxANKcghUvVuCaU8BIcjAeR7UFq5pQzlrRsyDYjOaCZGGfYr+1339xUuFwtvdwm+MwfnGSNJnpXYeDdQQ1MJ9INYlwaKJOA7Xo0tcu1Y7K6Zw=
+  - secure: WiePedGkRinpmsQmDajMiN864TA9t7qehW5GKegUEVftxFS8/B9V3atZXVBb8X5zKMYo0YX5zdXzf4cdZNA0Jjuhvc7RUvbtIWZ8NWrg8OZUuBJcd/XhlqXifKVm+SSWbHxfbBVDvpdB23Jia8Hg9Kchcq135tIKYdPEon4bVp0ky72WfjAXeigj/SRtqCBPA3dkJgoo6SpVSJNDasLaTUEZJtKC4KRP1V14ZJrM+GtTbWoeb4KOKrIollPJOujb0Iqh0MjQ/8HlMvh2wXRoeR7jMnd+TdA7ulFkLLApAL8WlnYEe//MQZ+tIAl6BaO8+jITiIyuNsZW2A7U+L4jwkZoWLesOrOzw1lOCYlCGfkSmOFganh4yHH1pZna4JXAATzzqlmMEAiLxp2FUHYPUUzRUbEAuIsj6rXsHPKdGmDK2Mv8tZ6LV2p3fQ5JARbHl2R7zyca66H2rwpPbFStLMiT7cvBg5Z0xAIdSkxsTDz0bTjtaaiSFgF+TOv/4s1LWMcK8EfFGAwcBUHM+ctcO/yZmflARGZI2IWmuWla+AZ8LuztUr0Qt8JUzjxEsf0+Rhc/mtCboVpq47Jpta53P+j+689SQKtlHobf88mcAuYJYswbvDlIBE3v6RuAta5V0srG0pEbDkDHfWrYSo9gBOs8TWc44M3TeOmeUH4TCWU=
 script: make
 deploy:
   provider: script
-  script:
-  - make release || travis_terminate 1
-  - aws s3 cp pkg/payload.zip "s3://$BUCKET/lambdas/payload-$TRAVIS_TAG.zip" || travis_terminate
-    1
+  script: make release aws s3 cp pkg/payload.zip "s3://$BUCKET/lambdas/payload-$TRAVIS_TAG.zip"
+    || travis_terminate 1
   skip_cleanup: true
   on:
     tags: true
