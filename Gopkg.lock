@@ -6,10 +6,11 @@
   name = "github.com/akerl/github-auth-lambda"
   packages = ["session"]
   pruneopts = "UT"
-  revision = "6ce428aacd16f1c6956d6bf6ae345a325662da97"
-  version = "0.0.7"
+  revision = "7921fc54ba94787fbcc54772125178171e625101"
+  version = "0.0.13"
 
 [[projects]]
+  branch = "master"
   digest = "1:af2fc73269cb23719d08312ba45a9fa9fd97f18fe457fc38341ea25e2756060d"
   name = "github.com/akerl/go-lambda"
   packages = [
@@ -20,8 +21,7 @@
     "s3",
   ]
   pruneopts = "UT"
-  revision = "3d505c32ffe120d3e8dab6c6e34e4ad92aa23c7a"
-  version = "0.2.3"
+  revision = "885dd7c099963863eb3ce0f54c2b5dcc97e721e6"
 
 [[projects]]
   digest = "1:a57aa6814a0b2832a6309213ce855deb2b80ecbab5dddea031acc563eb6ec46d"
