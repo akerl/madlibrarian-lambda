@@ -7,10 +7,9 @@ import (
 	"time"
 
 	"github.com/akerl/github-auth-lambda/session"
-	"github.com/akerl/go-lambda/apigw/dispatch"
-	"github.com/akerl/go-lambda/apigw/dispatch/handlers/slack"
-	"github.com/akerl/go-lambda/apigw/dispatch/handlers/text"
 	"github.com/akerl/go-lambda/apigw/events"
+	"github.com/akerl/go-lambda/mux"
+	"github.com/akerl/go-lambda/mux/receivers/slack"
 	"github.com/akerl/go-lambda/s3"
 	"github.com/akerl/madlibrarian/utils"
 	slackApi "github.com/nlopes/slack"
@@ -159,6 +158,14 @@ func loadQuote(req events.Request) (string, error) {
 	return quote, nil
 }
 
+func loadTextQuote(req events.Request) (events.Response, error) {
+	body, err := loadQuote(req)
+	if err != nil {
+		return events.Response{}, err
+	}
+	return events.Succeed(body)
+}
+
 func loadSlackQuote(req events.Request) (*slackApi.Msg, error) {
 	body, err := loadQuote(req)
 	if err != nil {
@@ -185,17 +192,15 @@ func main() {
 		Domain:   config.Domain,
 	}
 
-	d := dispatch.Dispatcher{
-		Receivers: []dispatch.Receiver{
-			&slack.Handler{
-				Func:        loadSlackQuote,
-				SlackTokens: config.SlackTokens,
-			},
-			&text.Handler{
-				Func:     loadQuote,
-				AuthFunc: authFunc,
-			},
+	d := mux.NewDispatcher(
+		&slack.Handler{
+			HandleFunc:  loadSlackQuote,
+			SlackTokens: config.SlackTokens,
 		},
-	}
-	d.Start()
+		&mux.SimpleReceiver{
+			HandleFunc: loadTextQuote,
+			AuthFunc:   authFunc,
+		},
+	)
+	mux.Start(d)
 }

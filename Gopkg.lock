@@ -11,17 +11,16 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:af2fc73269cb23719d08312ba45a9fa9fd97f18fe457fc38341ea25e2756060d"
+  digest = "1:4e80f799f44c4a6d96b1acbaa50e5722c61c82955c4237f80645177dcd833b03"
   name = "github.com/akerl/go-lambda"
   packages = [
-    "apigw/dispatch",
-    "apigw/dispatch/handlers/slack",
-    "apigw/dispatch/handlers/text",
     "apigw/events",
+    "mux",
+    "mux/receivers/slack",
     "s3",
   ]
   pruneopts = "UT"
-  revision = "3d686b1b05dcb858394e03e5e0fffe3b7f5eecc8"
+  revision = "b7fb0deb5ec17397d588586ccd66eb960ff32095"
 
 [[projects]]
   digest = "1:a57aa6814a0b2832a6309213ce855deb2b80ecbab5dddea031acc563eb6ec46d"
@@ -45,7 +44,7 @@
   version = "v1.6.0"
 
 [[projects]]
-  digest = "1:502eb29866e7477923b15dc77f49fa854a4ccb852e882e5e6e6e8a3187e03c02"
+  digest = "1:5495ea5b2cad6bca00ccc357472f59449a830738e5c3cb1af815d1448101b16e"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -84,8 +83,8 @@
     "service/sts",
   ]
   pruneopts = "UT"
-  revision = "dd947f47decb37a7c3bee72501bfc790701ab5ad"
-  version = "v1.15.50"
+  revision = "46fe04784968cd7b54e859fcce45753456f736ac"
+  version = "v1.15.52"
 
 [[projects]]
   digest = "1:2cd7915ab26ede7d95b8749e6b1f933f1c6d5398030684e6505940a10f31cfda"
@@ -127,9 +126,12 @@
   revision = "0b12d6b5"
 
 [[projects]]
-  digest = "1:ace662a36243b5cdc2f71e654175dc192f903fafbf3411a95bc910c1cad53ce7"
+  digest = "1:dee91b828087aadeca97a31805a63ebd7c98bc40e021f691d7ebf92202e39b6d"
   name = "github.com/nlopes/slack"
-  packages = ["."]
+  packages = [
+    ".",
+    "slackutilsx",
+  ]
   pruneopts = "UT"
   revision = "0db1d5eae1116bf7c8ed96c6749acfbf4daaec3e"
   version = "v0.3.0"
@@ -147,10 +149,9 @@
   analyzer-version = 1
   input-imports = [
     "github.com/akerl/github-auth-lambda/session",
-    "github.com/akerl/go-lambda/apigw/dispatch",
-    "github.com/akerl/go-lambda/apigw/dispatch/handlers/slack",
-    "github.com/akerl/go-lambda/apigw/dispatch/handlers/text",
     "github.com/akerl/go-lambda/apigw/events",
+    "github.com/akerl/go-lambda/mux",
+    "github.com/akerl/go-lambda/mux/receivers/slack",
     "github.com/akerl/go-lambda/s3",
     "github.com/akerl/madlibrarian/utils",
     "github.com/nlopes/slack",
