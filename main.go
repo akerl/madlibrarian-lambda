@@ -133,10 +133,7 @@ func authFunc(req events.Request) (events.Response, error) {
 		}, nil
 	}
 
-	return events.Response{
-		StatusCode: 403,
-		Body:       "not authenticated",
-	}, nil
+	return events.Response{}, nil
 }
 
 func loadQuote(req events.Request) (string, error) {
