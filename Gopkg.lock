@@ -20,7 +20,7 @@
     "s3",
   ]
   pruneopts = "UT"
-  revision = "bf18dbf01c26068293c1ffd42ccc1006101be657"
+  revision = "27e8bc6e633f194f45e7867ab0859ea864ba3d9e"
 
 [[projects]]
   digest = "1:a57aa6814a0b2832a6309213ce855deb2b80ecbab5dddea031acc563eb6ec46d"
