@@ -20,7 +20,7 @@
     "s3",
   ]
   pruneopts = "UT"
-  revision = "7da3989a6f81d5ed646f6ea5628e0195ed23a02e"
+  revision = "a5eb7e6f5f9ff3357a077cddd34f23d7e1b42ac5"
 
 [[projects]]
   digest = "1:a57aa6814a0b2832a6309213ce855deb2b80ecbab5dddea031acc563eb6ec46d"
@@ -44,7 +44,7 @@
   version = "v1.7.0"
 
 [[projects]]
-  digest = "1:1f92f0355dac733517b0a34d1477741adb5e0d85f841fc05ced256efdbdbd768"
+  digest = "1:446aa0799ef2cb0625ecf3f97a6c499d42f61121ae8186a40774acbb3f497765"
   name = "github.com/aws/aws-sdk-go"
   packages = [
     "aws",
@@ -84,8 +84,8 @@
     "service/sts",
   ]
   pruneopts = "UT"
-  revision = "66af558c91f83a793b4a0101f70742062982f611"
-  version = "v1.15.81"
+  revision = "ceab7b7ac6f535d1397f124620720b5145f1ad59"
+  version = "v1.15.88"
 
 [[projects]]
   digest = "1:4d4e43dde8f1abbef98f5e0e7e4fd6f0e98cbb81d3407cfb3b9aee6fcbf877d1"
@@ -158,12 +158,12 @@
   version = "v0.3.0"
 
 [[projects]]
-  digest = "1:342378ac4dcb378a5448dd723f0784ae519383532f5e70ade24132c4c8693202"
+  digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   pruneopts = "UT"
-  revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
-  version = "v2.2.1"
+  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
+  version = "v2.2.2"
 
 [solve-meta]
   analyzer-name = "dep"
