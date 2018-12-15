@@ -11,7 +11,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:fb7e99bad6332679a67c767a81319074a90611fa275eec3bd0f60c6384612607"
+  digest = "1:0ba08ed59e84d31a541849ef7f59011178527b00e50feaac77f06bd07ddc3860"
   name = "github.com/akerl/go-lambda"
   packages = [
     "apigw/events",
@@ -20,7 +20,7 @@
     "s3",
   ]
   pruneopts = "UT"
-  revision = "6700efe88b5add1c624086f3d834d68134df92ee"
+  revision = "8692f6de4730d4240b2017327037bd17c98650df"
 
 [[projects]]
   digest = "1:a57aa6814a0b2832a6309213ce855deb2b80ecbab5dddea031acc563eb6ec46d"
