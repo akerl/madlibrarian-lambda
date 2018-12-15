@@ -191,8 +191,8 @@ func main() {
 
 	d := mux.NewDispatcher(
 		&slack.Handler{
-			HandleFunc:  loadSlackQuote,
-			SlackTokens: config.SlackTokens,
+			HandleFunc:    loadSlackQuote,
+			SigningTokens: config.SlackTokens,
 		},
 		&mux.SimpleReceiver{
 			HandleFunc: loadTextQuote,

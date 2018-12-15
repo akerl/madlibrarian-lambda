@@ -11,7 +11,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:266c5cc2bc928a1d688bc9c8aa6a0d9877ab62b55d4a9e5b458ae78c7930b018"
+  digest = "1:fb7e99bad6332679a67c767a81319074a90611fa275eec3bd0f60c6384612607"
   name = "github.com/akerl/go-lambda"
   packages = [
     "apigw/events",
@@ -20,7 +20,7 @@
     "s3",
   ]
   pruneopts = "UT"
-  revision = "6312da0070efc7e22ae4832159b528b1b6510840"
+  revision = "6700efe88b5add1c624086f3d834d68134df92ee"
 
 [[projects]]
   digest = "1:a57aa6814a0b2832a6309213ce855deb2b80ecbab5dddea031acc563eb6ec46d"
@@ -151,12 +151,23 @@
   revision = "0b12d6b5"
 
 [[projects]]
-  digest = "1:ace662a36243b5cdc2f71e654175dc192f903fafbf3411a95bc910c1cad53ce7"
+  digest = "1:95d38d218bf2290987c6b0e885a9f0f2d3d3239235acaddca01c3fe36e5e5566"
   name = "github.com/nlopes/slack"
+  packages = [
+    ".",
+    "slackutilsx",
+  ]
+  pruneopts = "UT"
+  revision = "b9033a72a20bf84563485e86a2adbea4bf265804"
+  version = "v0.4.0"
+
+[[projects]]
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
+  name = "github.com/pkg/errors"
   packages = ["."]
   pruneopts = "UT"
-  revision = "0db1d5eae1116bf7c8ed96c6749acfbf4daaec3e"
-  version = "v0.3.0"
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
