@@ -6,8 +6,8 @@
   name = "github.com/akerl/github-auth-lambda"
   packages = ["session"]
   pruneopts = "UT"
-  revision = "7921fc54ba94787fbcc54772125178171e625101"
-  version = "0.0.13"
+  revision = "99e093b93aac077abd60cfbaa704ae6e2bef86d9"
+  version = "0.0.14"
 
 [[projects]]
   branch = "master"
