@@ -91,23 +91,12 @@ func aclCheck(aclName string, sess session.Session) bool {
 func authFunc(req events.Request) (events.Response, error) {
 	bucketName, storyName, err := parseStory(req)
 	if err != nil {
-		return events.Response{
-			StatusCode: 500,
-			Body:       "failed to authenticate request",
-		}, nil
+		return events.Fail("failed to authenticate request")
 	}
 
 	sess, err := sm.Read(req)
 	if err != nil {
-		return events.Response{
-			StatusCode: 500,
-			Body:       "failed to authenticate request",
-		}, nil
-	}
-
-	aclName := fmt.Sprintf("%s/%s", bucketName, storyName)
-	if aclCheck(aclName, sess) {
-		return events.Response{}, nil
+		return events.Fail("failed to authenticate request")
 	}
 
 	if sess.Login == "" {
@@ -125,15 +114,15 @@ func authFunc(req events.Request) (events.Response, error) {
 		returnValues.Set("redirect", returnURL.String())
 		authURL.RawQuery = returnValues.Encode()
 
-		return events.Response{
-			StatusCode: 303,
-			Headers: map[string]string{
-				"Location": authURL.String(),
-			},
-		}, nil
+		return events.Redirect(authURL.String(), 303)
 	}
 
-	return events.Response{}, nil
+	aclName := fmt.Sprintf("%s/%s", bucketName, storyName)
+	if aclCheck(aclName, sess) {
+		return events.Response{}, nil
+	}
+
+	return events.Reject("Not authorized")
 }
 
 func loadQuote(req events.Request) (string, error) {
