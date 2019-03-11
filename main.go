@@ -54,7 +54,7 @@ func cacheStory(bucketName, storyName string) (*utils.Story, error) {
 func parseStory(req events.Request) (string, string, error) {
 	params := events.Params{Request: &req}
 	bucketName := params.Lookup("bucket")
-	storyName := params.Lookup("story")
+	storyName := params.Lookup("path")
 
 	if bucketName == "" || storyName == "" {
 		return "", "", fmt.Errorf("settings not provided")
