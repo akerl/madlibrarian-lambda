@@ -12,7 +12,7 @@ import (
 	"github.com/akerl/go-lambda/mux/receivers/slack"
 	"github.com/akerl/go-lambda/s3"
 	"github.com/akerl/madlibrarian/utils"
-	slackApi "github.com/nlopes/slack"
+	slackApi "github.com/slack-go/slack"
 )
 
 type cachedStory struct {
@@ -141,6 +141,7 @@ func loadSlackQuote(req events.Request) (*slackApi.Msg, error) {
 }
 
 func main() {
+	fmt.Printf("I am here\n")
 	var err error
 	config, err = loadConfig()
 	if err != nil {
